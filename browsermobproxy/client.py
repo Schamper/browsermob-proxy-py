@@ -201,8 +201,7 @@ class Client(object):
         :param str js: the javascript to execute
         """
         r = requests.post(url='%s/proxy/%s/filter/response' % (self.host, self.port),
-                  data=js,
-                  headers={'content-type': 'application/json'})
+                  data=js)
         return r.status_code
 
     def request_interceptor(self, js):
@@ -212,8 +211,7 @@ class Client(object):
         :param str js: the javascript to execute
         """
         r = requests.post(url='%s/proxy/%s/filter/request' % (self.host, self.port),
-                  data=js,
-                  headers={'content-type': 'application/json'})
+                  data=js)
         return r.status_code
 
     LIMITS = {

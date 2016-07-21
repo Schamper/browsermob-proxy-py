@@ -8,16 +8,18 @@ import json
 
 
 class Client(object):
-    def __init__(self, url, params=None, options=None):
+    def __init__(self, url, data=None, params=None, options=None):
         """
         Initialises a new Client object
 
 
         :param url: This is where the BrowserMob Proxy lives
+        :param data: Data to be POST'ed (for example bindAddress, useEcc and trustAllServers)
         :param params: URL query (for example httpProxy and httpsProxy vars)
         :param options: Dictionary that can contain the port of an existing
                         proxy to use (for example 'existing_proxy_port_to_use')
         """
+        data = data if data is not None else {}
         params = params if params is not None else {}
         options = options if options is not None else {}
         self.host = "http://" + url
@@ -28,7 +30,7 @@ class Client(object):
         if 'existing_proxy_port_to_use' in options:
             self.port = options['existing_proxy_port_to_use']
         else:
-            resp = requests.post('%s/proxy' % self.host + urlparams)
+            resp = requests.post('%s/proxy' % self.host + urlparams, data=data)
             jcontent = json.loads(resp.content.decode('utf-8'))
             self.port = jcontent['port']
         url_parts = self.host.split(":")

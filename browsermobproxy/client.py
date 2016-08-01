@@ -200,11 +200,31 @@ class Client(object):
 
         :param str js: the javascript to execute
         """
+        r = requests.post(url='%s/proxy/%s/interceptor/response' % (self.host, self.port),
+                  data=js)
+        return r.status_code
+
+    def response_filter(self, js):
+        """
+        Executes the javascript against each response
+
+        :param str js: the javascript to execute
+        """
         r = requests.post(url='%s/proxy/%s/filter/response' % (self.host, self.port),
                   data=js)
         return r.status_code
 
     def request_interceptor(self, js):
+        """
+        Executes the javascript against each request
+
+        :param str js: the javascript to execute
+        """
+        r = requests.post(url='%s/proxy/%s/interceptor/request' % (self.host, self.port),
+                  data=js)
+        return r.status_code
+
+    def request_filter(self, js):
         """
         Executes the javascript against each request
 

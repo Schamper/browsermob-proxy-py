@@ -103,6 +103,8 @@ class Server(RemoteServer):
             options = {
                 'log_path': os.getcwd(),
                 'log_file': 'server.log',
+                'retry_sleep': 0.5,
+                'retry_count': 60,
                 }
         log_path = options.get('log_path')
         log_file = options.get('log_file')
@@ -121,9 +123,9 @@ class Server(RemoteServer):
                     "for a helpful error message.".format(self.log_file))
 
                 raise Exception(message)
-            time.sleep(0.5)
+            time.sleep(options.get('retry_sleep'))
             count += 1
-            if count == 60:
+            if count == options.get('retry_count'):
                 self.stop()
                 raise Exception("Can't connect to Browsermob-Proxy")
 
